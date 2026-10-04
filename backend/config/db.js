@@ -1,11 +1,14 @@
-const mongooes = require('mongoose');
-dotenv.config();
+const mongoose = require("mongoose");
+require("dotenv").config();
+
 const UserTable = async () => {
   try {
-    const conn = await mongooes.connect(process.env.MONGO_URI)
-    console.log("MongoDB Connected:" ,process.env.MONGO_URI);
+    const conn = await mongoose.connect(process.env.MONGO_URI);
+
+    console.log("MongoDB Connected:", conn.connection.host);
+  } catch (error) {
+    console.log("MongoDB connection error:", error);
   }
-  catch (error) {
-    console.log(error);
-  } }
-  module.exports = UserTable;
+};
+
+module.exports = UserTable;
