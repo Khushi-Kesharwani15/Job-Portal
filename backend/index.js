@@ -1,7 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-dotenv = require("dotenv");
+// dotenv = require("dotenv");
+require("dotenv").config();
 
 const UserTable = require("./config/db");
 connect = UserTable();
@@ -19,8 +20,8 @@ const authRoutes = require("./routes/authRoutes");
 app.use("/auth", authRoutes);
 
 // Jobs Routes
-const jobRoutes=require("./routes/jobRoutes");
-app.use("/job",jobRoutes);
+const jobRoutes = require("./routes/jobRoutes");
+app.use("/job", jobRoutes);
 
 //Profile 
 const profileRoutes = require("./routes/profileRoutes");
