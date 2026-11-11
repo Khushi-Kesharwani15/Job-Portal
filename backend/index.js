@@ -8,22 +8,31 @@ const UserTable = require("./config/db");
 UserTable();
 
 const PORT = process.env.PORT || 3000;
+const allowedOrigins = (process.env.FRONTEND_URLS || "http://localhost:5173,http://localhost:3000,https://job-portal-flax-two.vercel.app,https://jobportal-beige-kappa.vercel.app").split(",");
 
 console.log("PORT===>", PORT);
 
 app.use(express.json());
-// app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(
   cors({
-    origin: [
-      "https://job-portal-flax-two.vercel.app",
-      "https://jobportal-beige-kappa.vercel.app",
-    ],
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-app.use(express.urlencoded({ extended: true }));
+
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok", message: "Backend is running" });
+});
 
 // Auth Routes
 const authRoutes = require("./routes/authRoutes");
