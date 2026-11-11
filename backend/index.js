@@ -12,7 +12,17 @@ const PORT = process.env.PORT || 3000;
 console.log("PORT===>", PORT);
 
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
+
+app.use(
+  cors({
+    origin: [
+      "https://job-portal-flax-two.vercel.app",
+      "https://jobportal-beige-kappa.vercel.app",
+    ],
+    credentials: true,
+  })
+);
 app.use(express.urlencoded({ extended: true }));
 
 // Auth Routes
